@@ -17,7 +17,10 @@ VERSION = "0.1.0"
 
 SHELL = /bin/bash
 
+APPS = $(HOME)/Apps
+
 ARDUINO_VERSION = 1.6.7
+ARDUINO_DIR = $(APPS/arduino-$(ARDUINO_VERSION)
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -35,4 +38,12 @@ help:
 
 .PHONY: clean
 clean: ## clean repository
-	@echo -e "$(WARN_COLOR)[$(APP)] Clean $(NO_COLOR)"
+	@echo -e "$(OK_COLOR)[$(APP)] Clean $(NO_COLOR)"
+	@rm -f arduino-$(ARDUINO_VERSION)-linux64.*
+
+.PHONY: init
+init: ## Install dependencies
+	@echo -e "$(OK_COLOR)[$(APP)] Install dependencies $(NO_COLOR)"
+	@wget https://downloads.arduino.cc/arduino-$(ARDUINO_VERSION)-linux64.tar.xz && \
+		unxz arduino-$(ARDUINO_VERSION)-linux64.tar.xz && \
+		tar xf arduino-$(ARDUINO_VERSION)-linux64.tar -C $(APPS)

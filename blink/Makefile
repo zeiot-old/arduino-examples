@@ -18,5 +18,5 @@ BOARD_TAG = uno
 MONITOR_PORT = /dev/ttyACM0
 ARDUINO_LIBS =
 
-ARDUINO_DIR  = $(HOME)/Apps/arduino-1.6.7/
+include ../Makefile
 # include /usr/local/Arduino-Makefile/Arduino.mk
