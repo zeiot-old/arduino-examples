@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "DHT.h"
+#include <DHT.h>
 
 #define DHTPIN 2
 
@@ -37,18 +37,15 @@ void loop() {
   // float temperature = dht.readTemperature(true);
 
   if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("Error reading data from DHT sensor");
+    Serial.println("[Jarvis] Error reading data from DHT sensor");
     return;
   }
-
-  // isFahreheit = false
-  float hic = dht.computeHeatIndex(t, h, false);
 
   Serial.print("Humidity: ");
   Serial.print(humidity);
   Serial.print(" %\t");
   Serial.print("Temperature: ");
-  Serial.print((int)t);
+  Serial.print((int)temperature);
   Serial.print(" *C ");
   Serial.print(temperature);
 

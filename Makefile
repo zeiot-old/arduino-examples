@@ -1,4 +1,4 @@
-# Copyright (C) 2016  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,22 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-APP = "arduino-examples"
-VERSION = "0.1.0"
-
 SHELL = /bin/bash
-
-APPS = $(HOME)/Apps
-
-ARDUINO_VERSION = 1.6.7
-ARDUINO_DIR = $(APPS/arduino-$(ARDUINO_VERSION)
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-MAKE_COLOR=\033[33;01m%-20s\033[0m
+MAKE_COLOR=\033[33;01m%-15s\033[0m
 
 .DEFAULT_GOAL := help
 
@@ -37,13 +29,42 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(MAKE_COLOR) : %s\n", $$1, $$2}'
 
 .PHONY: clean
-clean: ## clean repository
-	@echo -e "$(OK_COLOR)[$(APP)] Clean $(NO_COLOR)"
-	@rm -f arduino-$(ARDUINO_VERSION)-linux64.*
+clean: ## clean installation
+	platformio run -d blink --target clean
 
 .PHONY: init
-init: ## Install dependencies
-	@echo -e "$(OK_COLOR)[$(APP)] Install dependencies $(NO_COLOR)"
-	@wget https://downloads.arduino.cc/arduino-$(ARDUINO_VERSION)-linux64.tar.xz && \
-		unxz arduino-$(ARDUINO_VERSION)-linux64.tar.xz && \
-		tar xf arduino-$(ARDUINO_VERSION)-linux64.tar -C $(APPS)
+init: ## Initialize Arduino environment
+	virtualenv --python=/usr/bin/python2 venv && \
+		. venv/bin/activate && pip2 install platformio
+
+.PHONY: list
+list: ## List serial ports
+	platformio serialports list
+
+.PHONY: monitor
+monitor: ## serial port monitor ('ctrl+]' to quit)
+	platformio serialports monitor
+
+.PHONY: run-all
+build-all: ## Build projects
+	platformio run -d blink
+	platformio run -d button-led
+	platformio run -d dht
+	platformio run -d traffic-light
+	platformio run -d wifi
+
+.PHONY: upload-all
+upload-all: ## Build and upload projects
+	platformio run -d blink --target upload
+	platformio run -d button-led --target upload
+	platformio run -d dht --target upload
+	platformio run -d traffic-light --target upload
+	platformio run -d wifi --target upload
+
+.PHONY: run
+build: ## Build projects (arg: project=xx)
+	platformio run -d $(project)
+
+.PHONY: upload
+upload: ## Build and upload projects (arg: project=xx)
+	platformio run -d $(project) --target upload
