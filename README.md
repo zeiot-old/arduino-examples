@@ -47,6 +47,9 @@ A [changelog](ChangeLog.md) is available
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
+## FAQ
+
+* Archlinux : https://github.com/platformio/platformio/issues/291
 
 
 [badge-license]: https://img.shields.io/badge/license-Apache2-green.svg?style=flat
