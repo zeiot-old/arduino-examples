@@ -37,18 +37,18 @@ void loop() {
   // float temperature = dht.readTemperature(true);
 
   if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("[Jarvis] Error reading data from DHT sensor");
+    Serial.println("Error reading data from DHT sensor");
     return;
   }
+  // float hi = dht.computeHeatIndex(f, h);
 
-  Serial.print("Humidity: ");
+  Serial.print("\nHumidity: ");
   Serial.print(humidity);
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print((int)temperature);
-  Serial.print(" *C ");
-  Serial.print(temperature);
-
-  // Wait 500 ms
+  Serial.print("°");
+  // Serial.print(temperature);
+  // Serial.print("°");
   delay(500);
 }
